@@ -6,40 +6,57 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.regex.*;
 
-public class Solution {
+class Result {
 
-    // Complete the plusMinus function below.
-    static void plusMinus(int[] arr) {
-        double pCount = 0, nCount = 0, zCount = 0;
-        for (int i = 0; i<arr.length; i++){
-            if (arr[i] > 0) pCount++;
-            if (arr[i] < 0) nCount++;
-            if (arr[i] == 0) zCount++;
-        }
-        System.out.println(pCount/arr.length);
-        System.out.println(nCount/arr.length);
-        System.out.println(zCount/arr.length);
+    /*
+     * Complete the 'diagonalDifference' function below.
+     *
+     * The function is expected to return an INTEGER.
+     * The function accepts 2D_INTEGER_ARRAY arr as parameter.
+     */
+
+    public static int diagonalDifference(List<List<Integer>> arr) {
+        int sum1 = 0, sum2 = 0, diff = 0;
+        for (int i = 0; i<arr.size(); i++){
+                sum1 += arr.get(i).get(i);
+                sum2 += arr.get(i).get(arr.size() - 1 - i);
+            }
+        System.out.println(sum1);
+        System.out.println(sum2);
+    return Math.abs(sum1 - sum2);
     }
 
-    private static final Scanner scanner = new Scanner(System.in);
+}
 
-    public static void main(String[] args) {
-        int n = scanner.nextInt();
-        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
 
-        int[] arr = new int[n];
+        int n = Integer.parseInt(bufferedReader.readLine().trim());
 
-        String[] arrItems = scanner.nextLine().split(" ");
-        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+        List<List<Integer>> arr = new ArrayList<>();
 
         for (int i = 0; i < n; i++) {
-            int arrItem = Integer.parseInt(arrItems[i]);
-            arr[i] = arrItem;
+            String[] arrRowTempItems = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
+
+            List<Integer> arrRowItems = new ArrayList<>();
+
+            for (int j = 0; j < n; j++) {
+                int arrItem = Integer.parseInt(arrRowTempItems[j]);
+                arrRowItems.add(arrItem);
+            }
+
+            arr.add(arrRowItems);
         }
 
-        plusMinus(arr);
+        int result = Result.diagonalDifference(arr);
 
-        scanner.close();
+        bufferedWriter.write(String.valueOf(result));
+        bufferedWriter.newLine();
+
+        bufferedReader.close();
+        bufferedWriter.close();
     }
 }
 
